@@ -29,7 +29,7 @@ class App extends Component {
   componentDidMount() {
     console.log(this.state.timer)
     if (this.state.timer) {
-      const time = 1000 * this.state.time
+      const time = 1000 * 60 * this.state.time
       setInterval(() => { this.beep() }, time)
     }
   }
@@ -46,6 +46,7 @@ class App extends Component {
 
   handleChange(event) {
     const num = parseInt(10, event.target.value)
+    console.log(typeof event.target.value)
     this.setState({time: num})
   }
 

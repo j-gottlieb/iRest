@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import TimerInput from './TimerInput.js'
 import Timer from './Timer.js'
-import StartButton from './StartButton.js'
+import Button from './StartButton.js'
 
 class App extends Component {
   constructor(props) {
@@ -19,6 +19,7 @@ class App extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.startCountDown = this.startCountDown.bind(this)
     this.tick = this.tick.bind(this)
+    this.stopCountDown = this.stopCountDown.bind(this)
   }
 
   beep() {
@@ -56,7 +57,6 @@ class App extends Component {
   }
 
   startCountDown(on) {
-    console.log(on)
     this.intervalHandle = setInterval(this.tick, 1000)
     let time
     let isOn
@@ -71,7 +71,14 @@ class App extends Component {
       secondsRemaining: time,
       on: isOn
     })
-    console.log(this.state.on)
+  }
+
+  stopCountDown() {
+    clearInterval(this.intervalHandle)
+    this.setState({
+      minutes: null,
+      seconds: null
+    })
   }
 
   handleChange(event, isOn) {
@@ -87,9 +94,10 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state)
     const onTimeMessage = 'Input on-screen time:'
     const offTimeMessage = 'Input off-screen time:'
+    const startLabel = 'Start'
+    const stopLabel = 'Stop'
     return (
       <React.Fragment>
         <h1>iRest</h1>
@@ -103,8 +111,12 @@ class App extends Component {
           message={offTimeMessage}
           minutes={this.state.minutesOff}
           handleChange={this.handleChange}/>
-        <StartButton
-          startCountDown={this.startCountDown}/>
+        <Button
+          action={this.startCountDown}
+          label={startLabel}/>
+        <Button
+          action={this.stopCountDown}
+          label={stopLabel}/>
         <Timer
           minutes={this.state.minutes}
           seconds={this.state.seconds}/>

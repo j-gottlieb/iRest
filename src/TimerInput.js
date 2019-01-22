@@ -8,7 +8,8 @@ render() {
       <input
         type="number"
         onChange={(e) => this.props.handleChange(e, this.props.isOn)}
-        required />
+        required
+        defaultValue={this.props.minutes}/>
   </div>
      );
    }

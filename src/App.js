@@ -11,8 +11,8 @@ class App extends Component {
     this.state = {
       seconds: null,
       minutes: null,
-      minutesOn: null,
-      minutesOff: null,
+      minutesOn: 20,
+      minutesOff: 2,
       secondsRemaining: '',
       on: null
     }
@@ -96,10 +96,12 @@ class App extends Component {
         <TimerInput
           isOn={true}
           message={onTimeMessage}
+          minutes={this.state.minutesOn}
           handleChange={this.handleChange}/>
         <TimerInput
           isOn={false}
           message={offTimeMessage}
+          minutes={this.state.minutesOff}
           handleChange={this.handleChange}/>
         <StartButton
           startCountDown={this.startCountDown}/>

@@ -9,12 +9,12 @@ class App extends Component {
     super(props)
 
     this.state = {
-      time: 6,
-      beep: false,
-      timer: false,
       seconds: null,
       minutes: null,
-      secondsRemaining: ''
+      minutesOn: null,
+      minutesOff: null,
+      secondsRemaining: '',
+      on: null
     }
     this.handleChange = this.handleChange.bind(this)
     this.startCountDown = this.startCountDown.bind(this)
@@ -29,7 +29,6 @@ class App extends Component {
     osc.connect(audioCtx.destination)
     osc.start()
     osc.stop(.5)
-    alert('Take 5!')
   }
 
   tick() {
@@ -49,35 +48,46 @@ class App extends Component {
     if (this.state.secondsRemaining === 0) {
       clearInterval(this.intervalHandle)
       this.beep()
+      this.startCountDown(this.state.on)
     }
-
     this.setState({
       secondsRemaining: this.state.secondsRemaining - 1
     })
   }
 
-  startCountDown() {
+  startCountDown(on) {
+    console.log(on)
     this.intervalHandle = setInterval(this.tick, 1000)
-    const time = (this.state.minutes * 60) - 1
+    let time
+    let isOn
+    if (on) {
+      time = (this.state.minutesOn * 60) - 1
+      isOn = false
+    } else {
+      time = (this.state.minutesOff * 60) - 1
+      isOn = true
+    }
     this.setState({
-      secondsRemaining: time
+      secondsRemaining: time,
+      on: isOn
     })
+    console.log(this.state.on)
   }
 
   handleChange(event, isOn) {
     if (isOn) {
       this.setState({
-        minutes: event.target.value
+        minutesOn: event.target.value
       })
     } else {
       this.setState({
-        minutes: event.target.value
+        minutesOff: event.target.value
       })
     }
-
   }
 
   render() {
+    console.log(this.state)
     const onTimeMessage = 'Input on-screen time:'
     const offTimeMessage = 'Input off-screen time:'
     return (
@@ -89,7 +99,8 @@ class App extends Component {
           handleChange={this.handleChange}/>
         <TimerInput
           isOn={false}
-          message={offTimeMessage}/>
+          message={offTimeMessage}
+          handleChange={this.handleChange}/>
         <StartButton
           startCountDown={this.startCountDown}/>
         <Timer

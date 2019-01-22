@@ -4,7 +4,7 @@ class StartButton extends Component {
    render() {
      return(
       <div>
-       <button onClick={this.props.startCountDown}>Start</button>
+       <button onClick={(a) => this.props.startCountDown(true)}>Start</button>
      </div>
       );
   }

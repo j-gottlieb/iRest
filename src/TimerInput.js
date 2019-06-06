@@ -1,18 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class TimerInput extends Component {
-render() {
-  return (
+const TimerInput = props => (
    <div>
-      <h3>{this.props.message}</h3>
+      <h3>{props.message}</h3>
       <input
         type="number"
-        onChange={(e) => this.props.handleChange(e, this.props.isOn)}
+        onChange={(e) => props.handleChange(e, props.isOn)}
         required
-        defaultValue={this.props.minutes}/>
+        defaultValue={props.minutes}/>
   </div>
-     );
-   }
-}
+);
 
 export default TimerInput
